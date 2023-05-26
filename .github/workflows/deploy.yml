@@ -52,16 +52,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests ephemeris
           export PATH=/home/runner/.local/bin:$PATH
-          make annotate ACTIVATE_ENV=pwd
-          curl -L https://docs.google.com/spreadsheets/d/1NfZhi5Jav7kl9zFCkeb7rIC2F8xW1isruv1TeO4WpNI/export\?format\=tsv | ruby bin/prepare_feedback.rb
-          npm install
-          make rebuild-search-index ACTIVATE_ENV=pwd
           cat metadata/swagger.yaml | python bin/yaml2json.py > api/swagger.json
-          curl --retry 5 https://gallantries.github.io/video-library/api/videos.json > metadata/video-library.json
-          curl --retry 5 https://gallantries.github.io/video-library/api/sessions.json > metadata/session-library.json
           rdoc bin _plugins/ --output gtn_rdoc
           JEKYLL_ENV=production bundle exec jekyll build --strict_front_matter -d _site/training-material
-          cp metadata/feedback.csv _site/training-material/api/feedback.csv
         env:
           GTN_FORK: ${{ github.repository_owner }}
 
