@@ -1,0 +1,14 @@
+.git
+.cache
+.DS_Store
+.bundle
+_site
+_includes
+_layouts
+_plugins
+assets
+layouts
+staging
+templates
+vendor
+videos

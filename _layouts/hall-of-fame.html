@@ -1,0 +1,91 @@
+---
+layout: base
+lang: en
+---
+
+{% assign contributors = site.data['contributors'] %}
+{% assign ckeys = "" | split: ',' %}
+{% for x in contributors %}
+	 {% assign ckeys = ckeys | push: x[0] %}
+{% endfor %}
+{% assign ckeysN = ckeys | size %}
+{% assign shuffled_contributors = ckeys | sample: ckeysN %}
+
+{% assign stories = site.pages | where:"layout", "training_philosophy" %}
+
+<section>
+    <h1>Hall of Fame</h1>
+
+    <p class="lead">
+        A big <em>Thank You!</em> in no particular order to the <strong>{{ contributors| where_exp: "item", "item.halloffame != 'no'"| size }}</strong>
+        awesome contributors to the Galaxy training materials!
+    </p>
+
+    {% include _includes/map.html %}
+
+    <h2>Contributors</h2>
+    <div class="hall-of-fame">
+        {% for username in shuffled_contributors %}
+            {% unless contributors[username].halloffame == "no" %}
+            {% unless contributors[username].funder %}
+            <div class="hall-of-fame-hero" id="{{ username }}">
+
+                <a href="{{ site.baseurl }}/hall-of-fame/{{ username }}/" class="thumbnail" title="{{ contributors[username].name | default: username }}">
+                {% if contributors[username].github != false %}
+                    <img src="https://avatars.githubusercontent.com/{{ username }}?s=120" alt="avatar" loading="lazy" aria-hidden="true">
+                {% else %}
+                    <img src="https://avatars.githubusercontent.com/{{ username }}?s=120" alt="avatar" loading="lazy" aria-hidden="true">
+                {% endif %}
+
+                <div class="name" aria-hidden="true">
+                    {{ contributors[username].name | default: username }}
+                </div>
+                </a>
+
+                {% assign has_philosophy = false %}
+                {% for story in stories %}
+                    {% if story.username == username %}
+                        {% assign has_philosophy = true %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if has_philosophy %}
+                <div class="contact-items">
+                    <a href="{{ site.baseurl }}/topics/teaching/tutorials/experiences/tutorial.html#{{ username }}">
+                        Training Philosophy
+                    </a>
+                </div>
+                {% endif %}
+
+            </div>
+            {% endunless %}
+            {% endunless %}
+        {% endfor %}
+    </div>
+    <h2>Contributing Organizations & Funders</h2>
+    <div class="hall-of-fame">
+        {% for username in shuffled_contributors %}
+            {% unless contributors[username].halloffame == "no" %}
+	    {% if contributors[username].funder %}
+            <div class="hall-of-fame-hero" id="{{ username }}">
+
+                <a href="{{ site.baseurl }}/hall-of-fame/{{ username }}/" class="thumbnail" title="{{ contributors[username].name | default: username }}">
+                {% if contributors[username].github != false %}
+                    <img src="https://avatars.githubusercontent.com/{{ username }}?s=120" alt="avatar" loading="lazy" aria-hidden="true">
+		{% elsif contributors[page.contributor].avatar %}
+			<img src="{{ contributors[page.contributor].avatar }}" alt="avatar" aria-hidden="true">
+                {% else %}
+                    <img src="https://avatars.githubusercontent.com/{{ username }}?s=120" alt="avatar" loading="lazy" aria-hidden="true">
+                {% endif %}
+
+                <div class="name" aria-hidden="true">
+                    {{ contributors[username].name | default: username }}
+                </div>
+                </a>
+            </div>
+	    {% endif %}
+            {% endunless %}
+        {% endfor %}
+
+    </div>
+</section>

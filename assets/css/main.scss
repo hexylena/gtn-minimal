@@ -1,0 +1,1461 @@
+---
+---
+
+ @font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url(/training-material/assets/fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Regular-102a.woff2), url(/training-material/assets/fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Regular-102.woff);
+  font-display: swap;
+}
+
+ @font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url(/training-material/assets/fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-BoldItalic-102a.woff2), url(/training-material/assets/fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-BoldItalic-102.woff);
+  font-weight: bold;
+  font-style: oblique;
+  font-display: swap;
+}
+
+ @font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url(/training-material/assets/fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Italic-102a.woff2), url(/training-material/assets/fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Italic-102.woff);
+  font-style: oblique;
+  font-display: swap;
+}
+
+ @font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url(/training-material/assets/fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Bold-102a.woff2), url(/training-material/assets/fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Bold-102.woff);
+  font-weight: bold;
+  font-display: swap;
+}
+
+$font-size: 15px;
+$tutorial-box-spacing: 1rem;
+
+
+:root {
+	--color-background: #fff;
+	--text-color: #292b2c;
+	--text-color-muted: #555; // AA :(
+        --text-color-inverted: #eee;
+	 // Allow overriding this separately, should generally default to same
+	 // as textcolour because box titles are still light in every theme.
+	--text-color-boxtitle: var(--text-color);
+	--slide-heading-color: var(--text-color); // Slides
+
+	--code-foreground: #fff;
+	--code-background: #000;
+
+	--border-light: #ddd;
+	--hyperlink: #0056b3;
+	--hyperlink-hover: #004590;
+
+	// From Galaxy
+	--brand-color: #2c3143;
+	--brand-color-contrast: #fff;
+	--navbar-border-size: 0px;
+	--navbar-border-color: white;
+	--navbar-item-background: transparent;
+	--navbar-item-hover: transparent;
+
+	// Basically only for the breadcrumbs.
+	--secondary-color: #e9ecef;
+	--secondary-color-text: #000;
+
+	// A11y
+	--outline-color: red;
+
+
+	--h1-theme-before: "";
+	--h1-theme-after: "";
+	--h2-theme-before: "";
+	--h2-theme-after: "";
+}
+
+/* SLIDES */
+@import "./slides.scss";
+/* SYNTAX */
+@import "./syntax_highlighting.scss";
+/* THEMES */
+@import "./themes.scss";
+
+// palette
+// These remain SASS variables because they're used in mixins.
+// Boxes
+$overview-color: #8A9AD0;
+$agenda-color: #86D486;
+$keypoints-color: #FFA1A1;
+$tip-color: #FFE19E;
+$warning-color: #de8875;
+$comment-color: #ffecc1;
+$handson-color: #dfe5f9;
+$question-color: #8A9AD0;
+$solution-color: #B8C3EA;
+$details-color: #ddd;
+$feedback-color: #86D486;
+$code-color: #86D486;
+$code-out-color: #fb99d0;
+
+.color-overview { background: $overview-color; }
+.color-agenda { background: $agenda-color; }
+.color-keypoints { background: $keypoints-color; }
+.color-tip { background: $tip-color; }
+.color-warning { background: $warning-color; }
+.color-comment { background: $comment-color; }
+.color-handson { background: $handson-color; }
+.color-question { background: $question-color; }
+.color-solution { background: $solution-color; }
+.color-details { background: $details-color; }
+.color-feedback { background: $feedback-color; }
+.color-code { background: $code-color; }
+.color-code-out { background: $code-out-color; }
+
+
+body {
+	font-family: "Atkinson Hyperlegible",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+
+	background: var(--color-background);
+	color: var(--text-color);
+
+	h1::before { content: var(--h1-theme-before) };
+	h1::after { content: var(--h1-theme-after) };
+	h2::before { content: var(--h2-theme-before) };
+	h2::after { content: var(--h2-theme-after) };
+
+	font-size: $font-size;
+	word-wrap: break-word;
+	position: relative;
+}
+
+@mixin tutorial-box ($bg-color) {
+    margin-top: 4 * $tutorial-box-spacing;
+
+    // Legacy
+    padding: ($tutorial-box-spacing - 0.4rem) ($tutorial-box-spacing - 0.11rem) $tutorial-box-spacing;
+    border: 1px solid $bg-color;
+    box-shadow: 3px 3px $bg-color;
+
+    // The new replacement
+    & > h3 ,
+    > .box-title {
+        font-size: $font-size + 3;
+        margin-left: -$tutorial-box-spacing;
+        margin-right: -$tutorial-box-spacing;
+        margin-top: -3.30rem;
+        padding-top: calc($tutorial-box-spacing / 2);
+        padding-bottom: calc($tutorial-box-spacing / 2);
+        padding-left: $tutorial-box-spacing;
+        padding-right: $tutorial-box-spacing;
+        background-color: $bg-color;
+        color: var(--text-color-boxtitle);
+        vertical-align: 1em;
+        float: left;
+        border: 1px solid $bg-color;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+
+        .fa {
+            padding-right: calc($tutorial-box-spacing / 5);
+        }
+
+        button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+    }
+}
+
+@mixin matrix-table (){
+  table {
+      width:unset;
+      margin-left:auto;
+      margin-right:auto;
+      margin-top: 20pt;
+  }
+
+  table thead th {
+      border-bottom: 2px solid #777;
+      text-align: left;
+  }
+
+  table td:first-child, table th:first-child  {
+      border-right: 2px solid #777;
+      font-weight: bold;
+      text-align: left;
+  }
+
+  table td:not(first-child), table th:not(first-child) {
+      text-align: center;
+      border-right: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+  }
+}
+
+
+div#theme-selector,div#lang-selector,div#archive-selector {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 200px;
+	justify-content: flex-start;
+	margin-left: 1em;
+
+	label.btn,a.btn,button.btn {
+		margin: 0.1em;
+		border: 1px solid var(--theme-color);
+	}
+}
+
+
+@mixin input-nicer($color) {
+}
+
+h1, h2, h3, h4 {
+    margin-top: 2rem;
+}
+
+img {
+    max-width: 95%;
+    margin: 2.5%;
+}
+
+:not(pre) > code {
+    color: var(--code-foreground);
+    background: var(--code-background);
+    border: 1px solid var(--text-color-muted);
+    border-radius: 0.25rem;
+}
+
+pre.highlight {
+    padding: 1rem;
+    background-color: var(--code-background);
+    color: var(--code-foreground);
+    border: 1px solid var(--text-color-muted);
+    @include syntax-dark;
+
+	code > ::selection {
+		color: var(--code-background);
+		background: var(--code-foreground);
+	}
+}
+
+/* Make the @@ portions of diffs, which indicate area, much more visible */
+div.language-diff .p {
+	border-top: 1px solid #66d9ef;
+	border-bottom: 1px solid #66d9ef;
+
+	border-left: 5px solid #66d9ef;
+	border-right: 5px solid #66d9ef;
+
+	font-weight: 900;
+
+	line-height: 3em;
+
+	margin-right: 1em;
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
+figure {
+  text-align: center;
+  margin: 1rem 2rem;
+
+  & > img {
+      margin-bottom: 1rem;
+      height: auto;
+  }
+
+  figcaption {
+    text-align: justify;
+  }
+}
+
+footer {
+    margin-top: 5em;
+    text-align: center;
+    color: var(--text-color-muted);
+    font-size: $font-size - 2;
+}
+
+.follow-up {
+    p {
+        font-size: 18px;
+    }
+}
+
+nav.navbar {
+    background-color: var(--brand-color) !important;
+    color: var(--brand-color-contrast);
+    border-bottom-style: solid;
+    border-bottom-width: var(--navbar-border-size);
+    border-bottom-color: var(--navbar-border-color);
+    padding: 0;
+
+    &.navbar-dark .navbar-brand,
+    &.navbar-dark .navbar-nav .nav-link{
+        color: var(--brand-color-contrast);
+    }
+
+    a {
+	border: none;
+    }
+
+    .navbar-brand, .navbar-nav li {
+	padding: 0.5em;
+	background: var(--navbar-item-background);
+
+	&:hover {
+		background: var(--navbar-item-hover);
+	}
+    }
+
+    a.navbar-brand {
+	padding-right: 2.5em; // the image seems to work poorly with parent size calculations.
+    }
+
+    // Text decoration not necessary for accessibility here.
+    a {
+        text-decoration: none;
+    }
+
+    .navbar-collapse {
+        justify-content: flex-end;
+        align-items: flex-end;
+        min-width: 0;
+    }
+
+}
+
+
+input.nicer {
+	background: transparent;
+	border: none;
+	border-radius: 0px;
+	padding: 0.4em 0 0 0;
+	color: var(--text-color);
+	border-bottom: 2px solid var(--text-color);
+	&::placeholder {
+		color: var(--text-color-muted);
+	}
+
+	&:focus, &:active {
+		background: #fff2;
+		text-decoration: underline;
+	}
+}
+
+nav input.nicer {
+	color: var(--brand-color-contrast);
+	border-bottom: 2px solid var(--brand-color-contrast);
+	&::placeholder {
+		color: var(--brand-color-contrast);
+	}
+
+	&:focus, &:active {
+		color: var(--brand-color-contrast);
+		border-bottom: 2px solid var(--brand-color-contrast);
+	}
+}
+#search-input {
+	margin-right:1em;
+}
+
+/*
+#search-container input.nicer {
+	@include input-nicer(black);
+}
+*/
+
+
+.main-content {
+    padding-top: 1rem;
+}
+
+.table {
+    td {
+        vertical-align: middle;
+    }
+
+    .fa {
+        font-size: $font-size + 5;
+    }
+
+}
+
+.training-network-map {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.faqs{
+  h4.faq-area{
+    color: var(--text-color-muted);
+    i {
+     font-size: 0.5em;
+    }
+  }
+  h3{
+   a{
+     color: var(--text-color);
+    }
+  }
+}
+
+.tutorial {
+    & > h1:first-child {
+        margin-bottom: 1rem;
+    }
+
+    table:not(.contributions) {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        max-width: 100%;
+        margin-bottom: 1rem;
+
+        th,
+        td {
+            padding: .75rem;
+            vertical-align: top;
+            border-top: 1px solid #eceeef;
+        }
+
+        thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #eceeef;
+        }
+    }
+
+	div.container blockquote {
+		ul, p, li > p:last-child {
+			margin-bottom: 0.5rem;
+		}
+		p:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+    .google-form {
+        width: 100%;
+        height: 1100px;
+        border: 0;
+    }
+}
+
+// tutorial boxes
+blockquote {
+    ul,
+    ol,
+    & > blockquote,
+    li p {
+        margin-bottom: 0px;
+    }
+    img {
+        display: block;
+    }
+
+    &.agenda {
+        @include tutorial-box($agenda-color);
+    }
+
+    &.tip {
+        @include tutorial-box($tip-color);
+    }
+
+    &.question {
+        @include tutorial-box($question-color);
+    }
+
+    &.code-in {
+        @include tutorial-box($code-color);
+    }
+
+    &.code-out {
+        @include tutorial-box($code-out-color);
+    }
+
+    &.code-max-300 {
+        pre {
+            max-height: 300px
+        }
+    }
+
+    &.solution {
+        @include tutorial-box($solution-color);
+    }
+
+    &.comment {
+        @include tutorial-box($comment-color);
+    }
+
+    &.hands_on, &.hands-on {
+        @include tutorial-box($handson-color);
+    }
+
+    &.key_points {
+        @include tutorial-box($keypoints-color);
+    }
+
+    &.overview {
+        @include tutorial-box($overview-color);
+        margin-top: 5rem;
+    }
+
+    &.warning {
+        @include tutorial-box($warning-color);
+    }
+
+    &.details {
+        @include tutorial-box($details-color);
+    }
+
+    &.quote {
+        border-left: 5px solid var(--brand-color);
+        padding-left: 1em;
+    }
+
+    &.spoken {
+        display: none;
+    }
+
+    &.hidden {
+        display: none;
+    }
+
+    &.matrix {
+        @include matrix-table();
+    }
+
+    &.feedback{
+        @include tutorial-box($feedback-color);
+    }
+}
+
+.fold-unfold {
+    margin-left: $tutorial-box-spacing;
+}
+.pre-break-lines code {
+    white-space: pre-wrap;
+}
+
+.card {
+	background: transparent;
+	border: 1px solid var(--border-light);
+	.card-title {
+		background: var(--brand-color);
+		border-bottom: 1px solid var(--border-light);
+		padding: 1.25rem;
+		color: var(--brand-color-contrast);
+	}
+
+	.card-body {
+		padding: 0em;
+	}
+}
+
+.pathway{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+
+    .pathwayitem {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--border-light);
+      .card-header {
+	background: var(--brand-color);
+	border-bottom: 1px solid var(--border-light);
+      }
+    }
+    .pathwaycover {
+        width: 100%;
+        object-fit: cover;
+        margin-top: auto;
+        margin-bottom: auto;
+        background-color: white;
+        border-radius: 2rem;;
+        padding: 1rem;
+        -webkit-transition: border 0.2s ease-in-out;
+        -o-transition: border 0.2s ease-in-out;
+        transition: border 0.2s ease-in-out;
+    }
+    h3 {
+        margin-top: 0.25rem;
+    }
+
+}
+
+.newslist {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+
+    .newsitem {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--border-light);
+      .card-header {
+	background: var(--brand-color);
+	border-bottom: 1px solid var(--border-light);
+      }
+    }
+    .newscover {
+        width: 100%;
+        object-fit: cover;
+        margin-top: auto;
+        margin-bottom: auto;
+        background-color: white;
+        border-radius: 2rem;;
+        padding: 1rem;
+        -webkit-transition: border 0.2s ease-in-out;
+        -o-transition: border 0.2s ease-in-out;
+        transition: border 0.2s ease-in-out;
+    }
+    h3 {
+        margin-top: 1rem;
+    }
+}
+
+
+.newstable{
+	div {
+		margin-top: 0px;
+		color: var(--text-color) !important;
+		font-weight: bold;
+		background: transparent;
+
+		a {
+			background: transparent;
+			border: 1px solid var(--border-light);
+		}
+		a:hover {
+			border: 1px solid var(--hyperlink);
+		}
+	}
+	p {
+		margin: 0px;
+	}
+}
+
+.contributors {
+    padding: 0;
+
+    .carousel-item {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .carousel-item.active,
+    .carousel-item-next,
+    .carousel-item-prev {
+        display: flex;
+    }
+
+    .hall-of-fame-hero {
+        margin: 0;
+        width: 18%;
+
+        .name {
+            font-size: 0.7em;
+        }
+    }
+}
+
+#feedback-button {
+	width: 100%;
+	cursor: pointer;
+	border: 5px solid transparent;
+
+	&:hover {
+		border: 5px solid var(--hyperlink);
+	}
+
+	img {
+		margin: 0;
+		max-width: 100%;
+		width: 100%;
+	}
+}
+
+.hall-of-fame {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.hall-of-fame-hero {
+    width: 140px;
+    margin: 1rem;
+    text-align: center;
+
+    .name {
+        margin-top: 0.5rem;
+    }
+
+    .contact-items {
+        margin-top: 0.2rem;
+    }
+
+    .thumbnail {
+        display:inline-block;
+
+        img {
+            background-color: white;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+            padding: 5px;
+            width: 100%;
+            -webkit-transition: border 0.2s ease-in-out;
+            -o-transition: border 0.2s ease-in-out;
+            transition: border 0.2s ease-in-out;
+        }
+    }
+
+    a.thumbnail {
+        &:hover,
+        &:focus,
+        &:active {
+            img {
+                border-color: var(--brand-color);
+            }
+        }
+    }
+}
+
+// This is a fix to get the hamburger button (menu/navbar) correctly placed on
+// small screens.
+@media (max-width: 575px) {
+    .navbar > .container {
+        position: initial;
+        margin-left: initial;
+        margin-right: initial;
+    }
+}
+
+// This applies a "dark" style to the dropdown menus on small devices since
+// Bootstrap v4 does not do that by default.
+@media (max-width: 768px) {
+    .navbar {
+        .dropdown-menu {
+		background-color: var(--color-background);
+            border-color: transparent;
+        }
+
+        .dropdown-item {
+		color: var(--text-color);
+
+            &:hover,
+            &:focus,
+            &:active {
+                background-color: var(--brand-color);
+                color:  var(--text-color);
+            }
+        }
+
+        .nav-item,
+        .dropdown-item {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .tutorial table,
+    .table-responsive {
+        display: table;
+    }
+
+    .citation {
+        text-align: justify;
+    }
+}
+
+@media (max-width: 1200px) {
+    .navbar-nav i {
+        display: none;
+    }
+}
+
+:root {
+	--color-primary: #999;
+	--color-darker: #777;
+	--color-dimmed: #555;
+}
+
+.label {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    line-height: 1;
+    color: #000;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    border-style: solid;
+    border-width: 0 2px 1px 0;
+    background-color: var(--color-primary);
+    border-color: var(--color-darker);
+
+    &:hover {
+        color: #000;
+        background-color: var(--color-dimmed);
+    }
+
+    &.label-large {
+	    font-size: 150%;
+    }
+}
+
+.level {
+    color: lightgray;
+    margin-right: 0.5em;
+
+    .fa {
+        font-size: 0.9em;
+    }
+    &.introductory i:first-of-type {
+        color: green;
+    }
+    &.intermediate i:not(:last-of-type) {
+        color: orange;
+    }
+    &.advanced {
+        color: red;
+    }
+}
+
+
+
+.visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+
+/* WCAG Contrast. These aim to pass AAA level for normal sized text. */
+a {
+    color: var(--hyperlink);
+    border-bottom: 1px dotted var(--hyperlink);
+
+    &:hover,
+    &:focus,
+    &:focus-visible,
+    &:active {
+        color: var(--hyperlink-hover);
+        border-bottom: 1px solid var(--hyperlink-hover);
+        text-decoration: none;
+    }
+
+    // Unset this for logos on the homepage
+    &.logo {
+	border: none;
+    }
+}
+
+// More a11y stuff
+.text-muted {
+	color: var(--text-color-muted) !important;
+}
+.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
+	text-decoration: underline;
+}
+.navbar-dark .navbar-nav .nav-link {
+	color: white;
+}
+.gitter-open-chat-button {
+    background-color: var(--brand-color) !important;
+    color: var(--brand-color-contrast) !important;
+}
+
+
+
+nav[data-toggle='toc'] {
+	margin-top: 30px;
+	margin-bottom: 30px;
+	.nav-link:focus, .nav-link:hover {
+		text-decoration: underline;
+	}
+
+	.nav-link.active,
+	.nav-link.active:focus,
+	.nav-link.active:hover {
+		color: var(--hyperlink);
+		border-left: 2px solid var(--hyperlink);
+	}
+
+
+    .nav {
+        li {
+            a {
+		color: var(--text-color-muted);
+                padding-left: 0px;
+                &:hover,
+                &:focus,
+                &:active {
+                    padding-left: 0px;
+                    color: var(--hyperlink);
+                    border-left: none;
+                }
+            }
+        }
+    }
+}
+
+.col-sm-2 {
+    padding-left: 0px;
+}
+
+/* small screens */
+@media screen and (max-width: 768px) {
+    nav[data-toggle='toc'] {
+        display: none !important;
+    }
+
+    .col-sm-10 {
+        max-width: 100%;
+    }
+}
+
+.contributors-line {
+    color: var(--text-color-muted);
+    font-size: 1.2em;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-content: baseline;
+    line-height: 1.5em;
+
+    .contributor-badge {
+        img {
+            height: 1.5em;
+            line-height: 1.5em;
+        }
+        i {
+            height: 1.5em;
+            line-height: 1.5em;
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+        }
+    }
+
+}
+
+.contributor-badge {
+    /* prevent breaking across lines */
+    white-space: nowrap;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 1em;
+    border: 1px dotted var(--hyperlink);
+    padding-right: 0.5em;
+    margin: 0.2em;
+    line-height: 1em;
+    flex-shrink: 0;
+
+    img {
+        height: 1em;
+        border-radius: 50%;
+        margin: 0 0.25em 0 0;
+    }
+
+    &:hover {
+	background: var(--brand-color);
+	color: var(--brand-color-contrast);
+	border: 1px solid var(--hyperlink-hover);
+    }
+}
+
+table.contributions{
+    tr td:nth-child(1) {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+
+div.highlight {
+	position: relative;
+}
+div.highlight .btn{
+	-webkit-transition:opacity .3s ease-in-out;
+	-o-transition:opacity .3s ease-in-out;
+	transition:opacity .3s ease-in-out;
+	opacity:0;
+	padding:2px 6px;
+	position:absolute;
+	right:4px;
+	top:4px;
+}
+
+div.highlight:hover .btn,div.highlight .btn:focus{
+	opacity:1
+}
+
+#tutorial_list{
+    h2,h3 {
+        display: inline;
+    }
+    .search_box {
+        float: right;
+        i {padding-right: .5rem;}
+    }
+    #clear_search{
+        cursor: pointer;
+    }
+}
+
+ul.supporting_material{
+    .btn{
+        padding-left: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        padding-right: 10px;
+        font-size: 15px;
+    }
+}
+
+.alert-heading {
+    margin-top: 1rem;
+}
+
+// Code In/Out blocks
+@media (min-width: 1200px) {
+    .code-2col{
+        display: flex;
+        flex-direction: row;
+        .code-in {
+            width: 47.5%;
+        }
+        .code-out {
+            margin-left: 5%;
+            width: 47.5%;
+        }
+    }
+}
+
+.card {
+  margin-top: 1em;
+}
+
+
+// The default presentation
+body {
+	.show-when-galaxy-proxy-active {
+		cursor: not-allowed;
+	}
+
+	span.tool, span.workflow {
+		border: 1px solid #999;
+		padding: 2px;
+		border-radius: 5px;
+
+		&:hover {
+			border: 1px solid blue;
+		}
+	}
+}
+
+// The fancier presentation when possible
+body.galaxy-proxy-active {
+	.show-when-galaxy-proxy-active {
+		cursor: pointer;
+	}
+
+	.hide-when-galaxy-proxy-active {
+		display: none;
+	}
+
+	span.tool, span.workflow {
+		cursor: pointer;
+		color: var(--brand-color-contrast);
+		background-color: var(--brand-color);
+		border-color: var(--brand-color);
+		padding: 0.2em 0.5em;
+
+		&:hover {
+			background-color: var(--hyperlink);
+			border-color: var(--hyperlink);
+		}
+	}
+}
+
+
+// Don't have such a wide whitespace surrounding on small screen sizes.
+
+@media (max-width:992px) {
+ .container {
+  max-width: unset;
+ }
+}
+
+// Videos
+
+video::cue {
+  background: #000000cc;
+  color: white;
+}
+
+#playlist {
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+
+    &.vertical {
+        flex-direction: column;
+    }
+
+    .pl-item a {
+        display: flex;
+        flex-direction: column;
+
+        .title {
+            font-weight: 700;
+        }
+        .topic {
+            font-style: italic;
+        }
+
+        .cover {
+            width: 200px;
+        }
+    }
+}
+
+
+#transcript {
+    height: 400px;
+    overflow-y: scroll;
+
+    tr td:nth-child(1) {
+        padding-right: 1em;
+        color: var(--text-color-muted);
+    }
+}
+
+abbr {
+	// Based on https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr#default_styling
+	text-decoration: underline dotted;
+	cursor: help;
+	font-variant: none;
+}
+
+.fdbk {
+    .card {
+        .card-title {
+            font-size: 2rem;
+            text-align: center;
+        }
+    }
+
+    .accordion {
+        margin-top: 20px;
+
+        .accordion-card {
+            margin-top: 0px;
+
+            .mb-0{
+                margin-top: 0px;
+            }
+        }
+    }
+}
+
+// Style definition lists a bit more nicely
+div.contributors-line {
+    dl {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+    dt {
+      width: 8em;
+      text-align: right;
+      font-weight: initial;
+    }
+    dd {
+      margin-left: auto;
+      width: calc(100% - 9em);
+      display: flex;
+    }
+}
+
+// big buttons
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  white-space: normal;
+
+  div {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+
+$btn-red: #bf4646;
+$btn-orange:$warning-color;
+$btn-yellow:$tip-color;
+$btn-green:$agenda-color;
+$btn-blue:$handson-color;
+$btn-purple:$question-color;
+$btn-pink:$keypoints-color;
+
+
+.btn-red{
+ background-color: $btn-red;
+ color: white;
+}
+
+.btn-orange{
+ background-color: $btn-orange;
+ color: black;
+}
+
+.btn-yellow{
+ background-color: $btn-yellow;
+ color: black;
+}
+
+.btn-green{
+ background-color: $btn-green;
+ color: black;
+}
+
+.btn-blue{
+ background-color: $btn-blue;
+ color: black;
+}
+
+.btn-purple{
+ background-color: $btn-purple;
+ color: black;
+}
+
+.btn-pink{
+ background-color: $btn-pink;
+ color: black;
+}
+
+
+.btn-square-small {
+  width: 50px !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  height: 50px !important;
+  text-align: center;
+  padding: 5px;
+  font-size:0.75rem;
+  margin: 5px;
+}
+
+.btn-square-medium {
+  width: 100px !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  height: 100px !important;
+  text-align: center;
+  padding: 5px;
+  font-size:1rem;
+  margin: 5px;
+}
+
+.btn-square-large {
+  width: 150px !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  height: 150px !important;
+  text-align: center;
+  padding: 5px;
+  font-size:1.25rem;
+  margin: 5px;
+}
+
+.btn-square-extralarge {
+  width: 200px !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  height: 200px !important;
+  text-align: center;
+  padding: 5px;
+  font-size:1.5rem;
+  margin: 5px;
+}
+
+.btn-primary {
+	background-color: var(--brand-color);
+	border-color: var(--brand-color);
+}
+.btn-success {
+	background-color: #1d7531; // AA
+	border-color: #1d7531; // AA
+}
+
+
+/* CYOA */
+.gtn-cyoa {
+    input[type="radio"] {
+        display: none;
+        &:checked+label {
+            background-color: $question-color;
+        }
+    }
+
+    .btn-secondary {
+        color: var(--text-color);
+        background-color: $handson-color;
+        border-color: transparent;
+        &:hover {
+            background-color: $solution-color;
+        }
+    }
+
+    label {
+        padding: 1em;
+        display: inline-block;
+    }
+}
+
+.gtn-cyoa-hidden {
+	height: 0px;
+	visibility: hidden;
+	display: none;
+	padding: 0rem;
+}
+
+/*
+Maybe something like this for the case where they do not select anything?
+.openstack {
+	border-left: 2px solid red;
+}
+.digitalocean {
+	border-left: 2px solid blue;
+}
+*/
+
+ul.text-list, ol.text-list {
+    list-style: none;
+	  padding-left: 0;
+
+    li {
+        display: inline;
+    }
+}
+
+.gtn-card {
+    border-radius: 10px;
+
+    .card-title {
+        font-size: 500%;
+        font-weight: 900;
+        margin-bottom: 0;
+        text-align: center;
+    }
+    .card-text {
+        text-align: center;
+        font-size: 150%;
+        padding: 0.3em;
+    }
+}
+
+
+.dropdown-item {
+	&:focus-visible {
+		outline: var(--outline-color) 3px solid;
+	}
+
+	&:focus, &:hover {
+		background: var(--brand-color);
+		color: var(--brand-color-contrast);
+	}
+}
+.dropdown-item:focus-visible {
+}
+
+ol.breadcrumb {
+	background: var(--secondary-color);
+
+	.breadcrumb-item.active {
+		color: var(--secondary-color-text);
+	}
+}
+
+
+
+a[target="_blank"]::after {
+  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==) " (opens in new tab)";
+  display: inline-block;
+  margin-left: 0.2em;
+  height: 1em;
+}
+
+.tutorials-list {
+/* Big */
+@media (min-width:768px) {
+    .duplicate {
+        display: none;
+    }
+}
+
+/* Skinny */
+@media (max-width:767px) {
+    table.table.table-responsive {
+        display: inline-table;
+    }
+    tr th:not(:first-child) {
+        display: none;
+    }
+    tr td:not(:first-child) {
+        display: none;
+    }r
+    .duplicate {
+        display: unset;
+    }
+}
+}
+
+// For the git-gat learning pathway boxes
+#git-gat-timeline {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#git-gat-timeline li  {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--text-color);
+    border-radius: 5px;
+    padding: 0.5em;
+    margin: 0.5em;
+}
+#git-gat-timeline li.active {
+    background: #a8ffa8;
+}
+#git-gat-timeline li.active a {
+    color: black;
+}
+#git-gat-timeline li.disabled {
+    background: #eee;
+}
+#git-gat-timeline li.disabled a {
+    color: #555;
+}
+#git-gat-timeline span {
+    align-self: center;
+}
